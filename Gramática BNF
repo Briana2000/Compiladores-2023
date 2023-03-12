@@ -1,0 +1,16 @@
+letra –> [a-zA-Z_]
+digito –> [0-9]
+id –> letra (letra|digito)*
+digitoSC –> [1-9]
+cero –> 0
+ceroD –> 0\.0
+punto –> \.
+signo –> [+-]
+numEnt –> (signo  digitoSC digito*) | (digitoSC digito*) | cero
+numDec –> signo? (digitoSC digito* | cero ) punto digito+ | ceroD
+equiv –> ‘=’
+finExp –> ‘$’
+tipoVar –> ‘int’ | ‘bool’ | ‘float’ | ‘char’ | ‘string’
+tipoNum –> ‘int’ | ‘float’
+operando --> numEnt | numDec | id
+opAritmético –> ‘+’ | ‘-‘ | ‘*’ | ‘/’
