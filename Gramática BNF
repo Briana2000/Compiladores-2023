@@ -1,17 +1,32 @@
-letra –> [a-zA-Z_]
-digito –> [0-9]
-id –> letra (letra|digito)*
-digitoSC –> [1-9]
-cero –> 0
-ceroD –> 0\.0
-punto –> \.
-signo –> [+-]
-numEnt –> (signo  digitoSC digito*) | (digitoSC digito*) | cero
-numDec –> signo? (digitoSC digito* | cero ) punto digito+ | ceroD
-equiv –> ‘=’
-finExp –> ‘$’
-tipoVar –> ‘int’ | ‘bool’ | ‘float’ | ‘char’ | ‘string’
-tipoNum –> ‘int’ | ‘float’
-operando –> numEnt | numDec | id
-opAritmético –> ‘+’ | ‘-‘ | ‘*’ | ‘/’
-creAsignVar –> tipoVar id equiv operando (opAritmético operando)* finExp
+letra --> [a-zA-Z_]
+digito --> [0-9]
+id --> letra (letra|digito)*
+digitoSC --> [1-9]
+cero --> 0
+ceroD --> 0\.0
+punto --> \.
+signo -->[+-]
+numEnt --> (signo  digitoSC digito*) | (digitoSC digito*) | cero
+numDec --> signo? (digitoSC digito* | cero ) punto digito+ | ceroD
+equiv --> ‘=’
+finExp --> ‘$’
+tipoVar --> ‘int’ | ‘bool’ | ‘float’ | ‘char’ | ‘string’
+tipoNum --> ‘int’ | ‘float’
+operando --> numEnt | numDec | id
+opAritmético --> ‘+’ | ‘-‘ | ‘*’ | ‘/’
+creAsignVar --> tipoVar id equiv operando (opAritmético operando)* finExp
+
+//ARREGLOS ESTATICOS//
+tipoArreglo --> ‘int’ | ‘char’
+iniTamArreglo -->‘[’
+finTamArreglo --> ‘]’
+iniPosArreglo --> iniTamArreglo
+finPosArreglo --> finTamArreglo 
+tamArreglo --> digitoSC+        ////// no sé si aquí hay que poner un límite ///////////////////
+creArreglo --> tipoArreglo id iniTamArreglo tamArreglo finTamArreglo finExp
+iniBloque --> ‘{’
+finBloque --> ‘}’
+operandoArreglo --> numEnt | id
+separador --> ','
+creAsignArreglo --> tipoArreglo id iniTamArreglo tamArreglo finTamArreglo equiv iniBloque operandoArreglo (separador operandoArreglo) finBloque finExp
+
