@@ -14,7 +14,7 @@ finExp --> ‘$’
 tipoVar --> ‘int’ | ‘bool’ | ‘float’ | ‘char’ | ‘string’
 tipoNum --> ‘int’ | ‘float’
 operando --> numEnt | numDec | id
-opAritmético --> ‘+’ | ‘-‘ | ‘*’ | ‘/’
+opAritmético --> ‘+’ | ‘-’ | ‘*’ | ‘/’
 creAsignVar --> tipoVar id equiv operando (opAritmético operando)* finExp
 
 //ARREGLOS ESTATICOS//
@@ -29,4 +29,6 @@ iniBloque --> ‘{’
 finBloque --> ‘}’
 operandoArreglo --> numEnt | id
 separador --> ‘,’
-creAsignArreglo --> tipoArreglo id iniTamArreglo tamArreglo finTamArreglo equiv iniBloque operandoArreglo (separador operandoArreglo){tamArreglo-1} finBloque finExp
+tamArregloMenos --> tamArreglo ‘-’ 1   ///// no sé si esto está bien ///////////////
+creAsignArregloConTam --> tipoArreglo id iniTamArreglo tamArreglo finTamArreglo equiv iniBloque operandoArreglo (separador operandoArreglo){tamArregloMenos} finBloque finExp
+creAsignArregloSinTam --> tipoArreglo id iniTamArreglo finTamArreglo equiv iniBloque operandoArreglo (separador operandoArreglo)* finBloque finExp
