@@ -1,6 +1,9 @@
 //////PRODUCCIONES///////////
 
-expr --> operando
+expr --> id
+expr --> numEnt
+expr --> numDec
+expr --> tipoVar
 expr --> expr + expr
 expr --> expr - expr
 expr --> expr * expr
@@ -12,7 +15,11 @@ expr --> / expr
 expr --> (expr)
 expr --> expr equiv expr 
 expr --> expr finExpr
-expr --> creaVar
+expr --> [expr]
+expr --> {expr} 
+expr --> expr,expr
+expr --> ,expr
+
 
 
 
@@ -38,21 +45,6 @@ tipoRet --> 'int' | 'float' | 'bool'
 tipoNum --> 'int' | 'float'
 operando --> numEnt | numDec | id
 opAritmetico --> '+' | '-' | '*' | '/'
-creaVar --> tipoVar id 
-iniParenCuad -->'['
-finParenCuad --> ']'
-
-//ARREGLOS ESTATICOS//
-tipoArreglo --> 'int' | 'char' 
-tamArreglo --> digitos_SC       ////// no sé si aquí hay que poner un límite ///////////////////
-creArreglo --> tipoArreglo id iniTamArreglo tamArreglo finTamArreglo finExpr
-iniBloque --> '{'
-finBloque --> '}'
-operandoArreglo --> numEnt | id
-separador --> ','
-tamArregloMenos --> tamArreglo '-' 1   ///// no sé si esto está bien ///////////////
-creAsignArregloConTam --> tipoArreglo id iniParenCuad tamArreglo finParenCuad equiv iniBloque operandoArreglo (separador operandoArreglo){tamArregloMenos} finBloque finExpr
-creAsignArregloSinTam --> tipoArreglo id iniParenCuad finParenCuad equiv iniBloque operandoArreglo (separador operandoArreglo)* finBloque finExpr
 
 
 //FUNCIONES//
