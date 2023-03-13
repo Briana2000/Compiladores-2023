@@ -1,3 +1,15 @@
+expr --> operando
+expr --> expr opAritmetico expr
+expr --> opAritmetico expr
+expr --> - expr
+expr --> (expr)
+expr --> expr equiv expr 
+expr --> expr finExpr
+expr --> creaVar
+
+
+
+
 letra --> [a-zA-Z_]
 digito --> [0-9]
 id --> letra (letra|digito)*
@@ -10,24 +22,24 @@ signo -->[+-]
 numEnt --> (signo  digitos_SC) | (digitos_SC) | cero
 numDec --> signo? (digitos_SC | cero ) punto digito+ | ceroD
 equiv --> ‘=’
-finExp --> ‘$’
+finExpr --> ‘$’
 tipoVar --> ‘int’ | ‘bool’ | ‘float’ | ‘char’ | ‘string’
-tipoNum --> ‘int’ | ‘float’
+tipoNum --> ‘int’ | ‘float’  ///// todavía no se usa /////////////////////
 operando --> numEnt | numDec | id
-opAritmético --> ‘+’ | ‘-’ | ‘*’ | ‘/’
-creAsignVar --> tipoVar id equiv operando (opAritmético operando)* finExp
+opAritmetico --> ‘+’ | ‘-’ | ‘*’ | ‘/’
+creaVar --> tipoVar id 
 iniParenCuad -->‘[’
 finParenCuad --> ‘]’
 
 //ARREGLOS ESTATICOS//
 tipoArreglo --> ‘int’ | ‘char’ 
 tamArreglo --> digitos_SC       ////// no sé si aquí hay que poner un límite ///////////////////
-creArreglo --> tipoArreglo id iniTamArreglo tamArreglo finTamArreglo finExp
+creArreglo --> tipoArreglo id iniTamArreglo tamArreglo finTamArreglo finExpr
 iniBloque --> ‘{’
 finBloque --> ‘}’
 operandoArreglo --> numEnt | id
 separador --> ‘,’
 tamArregloMenos --> tamArreglo ‘-’ 1   ///// no sé si esto está bien ///////////////
-creAsignArregloConTam --> tipoArreglo id iniParenCuad tamArreglo finParenCuad equiv iniBloque operandoArreglo (separador operandoArreglo){tamArregloMenos} finBloque finExp
-creAsignArregloSinTam --> tipoArreglo id iniParenCuad finParenCuad equiv iniBloque operandoArreglo (separador operandoArreglo)* finBloque finExp
-obtenerEleArreglo --> id 
+creAsignArregloConTam --> tipoArreglo id iniParenCuad tamArreglo finParenCuad equiv iniBloque operandoArreglo (separador operandoArreglo){tamArregloMenos} finBloque finExpr
+creAsignArregloSinTam --> tipoArreglo id iniParenCuad finParenCuad equiv iniBloque operandoArreglo (separador operandoArreglo)* finBloque finExpr
+
