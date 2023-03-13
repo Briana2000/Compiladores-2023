@@ -1,9 +1,11 @@
 //////PRODUCCIONES///////////
 
+expr --> ε
 expr --> id
 expr --> numEnt
 expr --> numDec
-expr --> tipoVar
+expr --> creaVar
+expr --> creArreglo
 expr --> expr + expr
 expr --> expr - expr
 expr --> expr * expr
@@ -12,13 +14,13 @@ expr --> + expr
 expr --> - expr
 expr --> * expr
 expr --> / expr
-expr --> (expr)
 expr --> expr equiv expr 
 expr --> expr finExpr
+expr --> (expr)
 expr --> [expr]
 expr --> {expr} 
-expr --> expr,expr
-expr --> ,expr
+expr --> expr
+expr --> expr,
 
 
 
@@ -28,7 +30,6 @@ letra --> [a-zA-Z_]
 digito --> [0-9]
 id --> letra (letra|digito)*
 digitoSC --> [1-9]
-digitos_SC --> digitoSC digito*
 cero --> 0
 ceroD --> 0\.0
 punto --> \.
@@ -40,15 +41,27 @@ false --> 'False' | 0
 bool --> true | false
 equiv --> '='
 finExp --> '$'
+
+// ASIGNACION-CREACION VARIABLES //
 tipoVar --> 'int' | 'bool' | 'float' | 'char' | 'string'
-tipoRet --> 'int' | 'float' | 'bool'
-tipoNum --> 'int' | 'float'
 operando --> numEnt | numDec | id
 opAritmetico --> '+' | '-' | '*' | '/'
+tipoNum --> 'int' | 'float'
+creaVar --> tipoVar id
+
+//ARREGLOS ESTATICOS//
+iniParenCuad -->'['
+finParenCuad --> ']'
+tipoArreglo --> 'int' | 'char' 
+tamArreglo --> digitoSC digito* | ε
+creArreglo --> tipoArreglo id iniParenCuad tamArreglo finParenCuad
 
 
 //FUNCIONES//
 
+iniBloque --> '{'
+finBloque --> '}'
+tipoRet --> 'int' | 'float' | 'bool'	
 iniPar --> '('
 finPar --> ')'
 param --> tipoVar id (, tipoVar id)*            /// recibir parámetros (con tipo)?? Solo con tipo? /////
