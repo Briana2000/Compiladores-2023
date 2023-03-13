@@ -1,7 +1,14 @@
+//////PRODUCCIONES///////////
+
 expr --> operando
-expr --> expr opAritmetico expr
-expr --> opAritmetico expr
+expr --> expr + expr
+expr --> expr - expr
+expr --> expr * expr
+expr --> expr / expr
+expr --> + expr
 expr --> - expr
+expr --> * expr
+expr --> / expr
 expr --> (expr)
 expr --> expr equiv expr 
 expr --> expr finExpr
@@ -21,14 +28,10 @@ punto --> \.
 signo -->[+-]
 numEnt --> (signo  digitos_SC) | (digitos_SC) | cero
 numDec --> signo? (digitos_SC | cero ) punto digito+ | ceroD
-true --> 'True' | 1
-false --> 'False' | 0
-bool --> true | false
 equiv --> ‘=’
 finExpr --> ‘$’
 tipoVar --> ‘int’ | ‘bool’ | ‘float’ | ‘char’ | ‘string’
 tipoNum --> ‘int’ | ‘float’  ///// todavía no se usa /////////////////////
-tipoRet --> 'int' | 'float' | 'bool'
 operando --> numEnt | numDec | id
 opAritmetico --> ‘+’ | ‘-’ | ‘*’ | ‘/’
 creaVar --> tipoVar id 
@@ -47,14 +50,3 @@ tamArregloMenos --> tamArreglo ‘-’ 1   ///// no sé si esto está bien /////
 creAsignArregloConTam --> tipoArreglo id iniParenCuad tamArreglo finParenCuad equiv iniBloque operandoArreglo (separador operandoArreglo){tamArregloMenos} finBloque finExpr
 creAsignArregloSinTam --> tipoArreglo id iniParenCuad finParenCuad equiv iniBloque operandoArreglo (separador operandoArreglo)* finBloque finExpr
 
-//FUNCIONES//
-
-iniPar --> '('
-finPar --> ')'
-param --> tipoVar id (, tipoVar id)*            /// recibir parámetros (con tipo)?? Solo con tipo? /////
-parametros --> iniPar param* finPar
-
-sentencias --> sentencia | sentencias sentencia
-sentencia --> creAsignVar | asignación | llamada | condicional 
-
-funcion --> tipoRet id params iniBloque sentencias finBloque finExp
