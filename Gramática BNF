@@ -8,25 +8,40 @@ punto --> \.
 signo -->[+-]
 numEnt --> (signo  digitoSC digito*) | (digitoSC digito*) | cero
 numDec --> signo? (digitoSC digito* | cero ) punto digito+ | ceroD
-equiv --> ‘=’
-finExp --> ‘$’
-tipoVar --> ‘int’ | ‘bool’ | ‘float’ | ‘char’ | ‘string’
-tipoNum --> ‘int’ | ‘float’
+true --> 'True' | 1
+false --> 'False' | 0
+bool --> true | false
+equiv --> '='
+finExp --> '$'
+tipoVar --> 'int' | 'bool' | 'float' | 'char' | 'string'
+tipoRet --> 'int' | 'float' | 'bool'
+tipoNum --> 'int' | 'float'
 operando --> numEnt | numDec | id
-opAritmético --> ‘+’ | ‘-‘ | ‘*’ | ‘/’
+opAritmético --> '+' | '-' | '*' | '/'
 creAsignVar --> tipoVar id equiv operando (opAritmético operando)* finExp
 
 //ARREGLOS ESTATICOS//
-tipoArreglo --> ‘int’ | ‘char’
-iniTamArreglo -->‘[’
-finTamArreglo --> ‘]’
+tipoArreglo --> 'int' | 'char'
+iniTamArreglo -->'['
+finTamArreglo --> ']'
 iniPosArreglo --> iniTamArreglo
 finPosArreglo --> finTamArreglo 
 tamArreglo --> digitoSC+        ////// no sé si aquí hay que poner un límite ///////////////////
 creArreglo --> tipoArreglo id iniTamArreglo tamArreglo finTamArreglo finExp
-iniBloque --> ‘{’
-finBloque --> ‘}’
+iniBloque --> '{'
+finBloque --> '}'
 operandoArreglo --> numEnt | id
 separador --> ','
 creAsignArreglo --> tipoArreglo id iniTamArreglo tamArreglo finTamArreglo equiv iniBloque operandoArreglo (separador operandoArreglo) finBloque finExp
 
+//FUNCIONES//
+
+iniPar --> '('
+finPar --> ')'
+param --> tipoVar id (, tipoVar id)*            /// recibir parámetros (con tipo)?? Solo con tipo? /////
+parametros --> iniPar param* finPar
+
+sentencias --> sentencia | sentencias sentencia
+sentencia --> creAsignVar | asignación | llamada | condicional 
+
+funcion --> tipoRet id params iniBloque sentencias finBloque finExp
