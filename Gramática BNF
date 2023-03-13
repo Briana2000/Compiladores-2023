@@ -1,4 +1,4 @@
-//////PRODUCCIONES///////////
+##### PRODUCCIONES ##### 
 
 expr --> operando
 expr --> expr + expr
@@ -42,25 +42,25 @@ creaVar --> tipoVar id
 iniParenCuad -->‘[’
 finParenCuad --> ‘]’
 
-//ARREGLOS ESTATICOS//
+##### ARREGLOS ESTATICOS #####
 tipoArreglo --> ‘int’ | ‘char’ 
-tamArreglo --> digitos_SC       ////// no sé si aquí hay que poner un límite ///////////////////
+tamArreglo --> digitos_SC       ##### no sé si aquí hay que poner un límite #####
 creArreglo --> tipoArreglo id iniTamArreglo tamArreglo finTamArreglo finExpr
 iniBloque --> ‘{’
 finBloque --> ‘}’
 operandoArreglo --> numEnt | id
 separador --> ‘,’
-tamArregloMenos --> tamArreglo ‘-’ 1   ///// no sé si esto está bien ///////////////
+tamArregloMenos --> tamArreglo ‘-’ 1   ##### no sé si esto está bien #####
 creAsignArregloConTam --> tipoArreglo id iniParenCuad tamArreglo finParenCuad equiv iniBloque operandoArreglo (separador operandoArreglo){tamArregloMenos} finBloque finExpr
 creAsignArregloSinTam --> tipoArreglo id iniParenCuad finParenCuad equiv iniBloque operandoArreglo (separador operandoArreglo)* finBloque finExpr
 
 
-//FUNCIONES//
+##### FUNCIONES #####
 
 iniPar --> '('
 finPar --> ')'
-param --> tipoVar id (, tipoVar id)*            /// recibir parámetros (con tipo)?? Solo con tipo? /////
-parametros --> iniPar param* finPar
+parametros --> creaVar
+parametros --> creaVar, parametros
 
 sentencias --> sentencia | sentencias sentencia
 sentencia --> creAsignVar | asignación | llamada | condicional 
