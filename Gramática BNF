@@ -45,7 +45,7 @@ int, void, float, bool, char, string
 main, True, False
 $
 @, /_ , _/
-[]. {}. ()
+[], {}, ()
 if, elif, else, do, while, for, return, break 
 
 ####### VARIABLES NO TERMINALES #######
