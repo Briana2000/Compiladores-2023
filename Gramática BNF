@@ -1,6 +1,5 @@
 ####### PRODUCCIONES ####### 
 
-## Derivaciones?
 expr --> ε
 expr --> id
 expr --> numEnt
@@ -39,7 +38,7 @@ expr --> comentariosUnaL
 expr --> comentariosMultL
 
 
-####### VARIABLES TERMINALES #######
+####### VARIABLES NO TERMINALES #######
 letra --> [a-zA-Z_]
 digito --> [0-9]
 id --> letra (letra|digito)*
