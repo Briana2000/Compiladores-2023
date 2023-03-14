@@ -6,6 +6,15 @@ expr --> numEnt
 expr --> numDec
 expr --> creaVar
 expr --> creArreglo
+expr --> obtEleArreglo
+expr --> expr equiv expr 
+expr --> expr finExpr
+expr --> (expr)
+expr --> [expr]
+expr --> {expr} 
+expr --> expr
+expr --> - expr
+expr --> expr, expr
 expr --> expr + expr
 expr --> expr - expr
 expr --> expr * expr
@@ -25,15 +34,10 @@ expr --> idBool != idBool
 expr --> expr ^ expr
 expr --> expr # expr
 expr --> negacion expr
-expr --> expr equiv expr 
-expr --> expr finExpr
-expr --> (expr)
-expr --> [expr]
-expr --> {expr} 
-expr --> expr
-expr --> - expr
-expr --> expr, expr
-expr --> obtEleArreglo
+expr --> comentariosUnaL
+expr --> comentariosMultL
+
+
 
 
 
@@ -56,6 +60,10 @@ finExp --> '$'
 tipOpUnario --> id | numEnt | obtEleArreglo
 idBool --> id | bool
 negación --> ! | 'not'
+comentariosUnaL --> \@\N*
+comentariosMultL --> \/.*\/ 
+
+
 
 // ASIGNACION-CREACION VARIABLES //
 tipoVar --> 'int' | 'boolean' | 'float' | 'char' | 'string'
