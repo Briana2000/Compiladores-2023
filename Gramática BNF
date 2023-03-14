@@ -1,68 +1,123 @@
-##### PRODUCCIONES ##### 
+####### PRODUCCIONES ####### 
 
-expr --> operando
+## Derivaciones?
+expr --> ε
+expr --> id
+expr --> numEnt
+expr --> numDec
+expr --> creaVar
+expr --> creArreglo
+expr --> obtEleArreglo
+expr --> expr equiv expr 
+expr --> expr finExp
+expr --> (expr)
+expr --> [expr]
+expr --> {expr} 
+expr --> expr
+expr --> - expr
+expr --> expr, expr
 expr --> expr + expr
 expr --> expr - expr
 expr --> expr * expr
 expr --> expr / expr
-expr --> + expr
-expr --> - expr
-expr --> * expr
-expr --> / expr
-expr --> (expr)
-expr --> expr equiv expr 
-expr --> expr finExpr
-expr --> creaVar
+expr --> expr ~ expr    ### Puede haber màs de 2 expresiones?
+expr --> expr ** expr   ### Puede haber màs de 2 expresiones?
+expr --> ++ tipOpUnario
+expr --> -- tipOpUnario
+expr --> operando > operando
+expr --> operando >= operando
+expr --> operando < operando
+expr --> operando <= operando
+expr --> operando == operando
+expr --> operando != operando 
+expr --> idBool == idBool
+expr --> idBool != idBool
+expr --> expr ^ expr
+expr --> expr # expr
+expr --> negacion expr
+expr --> comentariosUnaL
+expr --> comentariosMultL
 
 
-
-
+####### VARIABLES TERMINALES #######
 letra --> [a-zA-Z_]
 digito --> [0-9]
 id --> letra (letra|digito)*
 digitoSC --> [1-9]
-digitos_SC --> digitoSC digito*
 cero --> 0
 ceroD --> 0\.0
 punto --> \.
 signo -->[+-]
 numEnt --> (signo  digitoSC digito*) | (digitoSC digito*) | cero
 numDec --> signo? (digitoSC digito* | cero ) punto digito+ | ceroD
+num --> numEnt | numDec
 true --> 'True' | 1
 false --> 'False' | 0
 bool --> true | false
+string --> \" .* \"
+tipoBasico --> num | bool | string
 equiv --> '='
 finExp --> '$'
-tipoVar --> 'int' | 'bool' | 'float' | 'char' | 'string'
-tipoRet --> 'int' | 'float' | 'bool'
-tipoNum --> 'int' | 'float'
+tipOpUnario --> id | numEnt | obtEleArreglo
+idBool --> id | bool
+negación --> ! | 'not'
+noNuevaLinea --> \N*
+comentariosUnaL --> '@' letra* noNuevaLinea
+comentariosMultL --> '/_'.*'_/' 
+
+
+####### ASIGNACION-CREACION VARIABLES #######
+tipoVar --> 'int' | 'boolean' | 'float' | 'char' | 'string'
 operando --> numEnt | numDec | id
 opAritmetico --> '+' | '-' | '*' | '/'
-creaVar --> tipoVar id 
+tipoNum --> 'int' | 'float'
+creaVar --> tipoVar id
+
+####### ARREGLOS ESTATICOS #######
 iniParenCuad -->'['
 finParenCuad --> ']'
-
-##### ARREGLOS ESTATICOS #####
 tipoArreglo --> 'int' | 'char' 
-tamArreglo --> digitos_SC       ##### no sé si aquí hay que poner un límite #####
-creArreglo --> tipoArreglo id iniTamArreglo tamArreglo finTamArreglo finExpr
+tamArreglo --> digitoSC digito* | ε
+creArreglo --> tipoArreglo id iniParenCuad tamArreglo finParenCuad
+obtEleArreglo --> id iniParenCuad tamArreglo finParenCuad
+
+
+
+###### FUNCIONES ######
 iniBloque --> '{'
 finBloque --> '}'
-operandoArreglo --> numEnt | id
-separador --> ','
-tamArregloMenos --> tamArreglo '-' 1   ##### no sé si esto está bien #####
-creAsignArregloConTam --> tipoArreglo id iniParenCuad tamArreglo finParenCuad equiv iniBloque operandoArreglo (separador operandoArreglo){tamArregloMenos} finBloque finExpr
-creAsignArregloSinTam --> tipoArreglo id iniParenCuad finParenCuad equiv iniBloque operandoArreglo (separador operandoArreglo)* finBloque finExpr
-
-
-##### FUNCIONES #####
-
+tipoRet --> 'int' | 'float' | 'boolean'	
 iniPar --> '('
 finPar --> ')'
+
 parametros --> creaVar
 parametros --> creaVar, parametros
 
 sentencias --> sentencia | sentencias sentencia
 sentencia --> creAsignVar | asignación | llamada | condicional 
 
+conjuncion --> '^'
+disyuncion --> '#'
+negacion --> '!' | 'not'
+comparacion --> '>' | '>=' | '<' | '<=' | '==' | '!='
+
+expLog --> num
+expLog --> bool
+expLog --> expLog comparacion expLog
+expLog --> conjuncion
+expLog --> disyuncion
+expLog --> negacion expLog
+expLog --> (expLog)
+
+creAsignVar --> creaVar equiv tipoBasico finExp
+creAsignVar --> creaVar equiv id finExp
+asignación --> id equiv tipoBasico finExp
+asignación --> id equiv id
+llamada --> "call" id iniPar parametros finPar finExp
+
+condicional --> 'if' iniPar expLog finPar iniBloque sentencias finBloque fin finExp
+
 funcion --> tipoRet id params iniBloque sentencias finBloque finExp
+
+
+
