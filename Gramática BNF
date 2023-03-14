@@ -37,6 +37,20 @@ expr --> negacion expr
 expr --> comentariosUnaL
 expr --> comentariosMultL
 
+####### VARIABLES TERMINALES #######
+int, void, float, bool, char, string 
+-, +, *, /, ~ , **, --, ++
+=, >, >=, <, <=, ==, !=
+^, #
+main 
+, 
+True, False
+$
+not
+@
+/_ , _/
+[]. {}. ()
+if, elif, else, do, while, for 
 
 ####### VARIABLES NO TERMINALES #######
 letra --> [a-zA-Z_]
@@ -52,13 +66,13 @@ numDec --> signo? (digitoSC digito* | cero ) punto digito+ | ceroD
 num --> numEnt | numDec
 true --> 'True' | 1
 false --> 'False' | 0
-bool --> true | false
+boolean --> true | false
 string --> \" .* \"
-tipoBasico --> num | bool | string
+tipoBasico --> num | boolean | string
 equiv --> '='
 finExp --> '$'
 tipOpUnario --> id | numEnt | obtEleArreglo
-idBool --> id | bool
+idBool --> id | boolean
 negación --> ! | 'not'
 noNuevaLinea --> [^\n]*
 comentariosUnaL --> '@' '.*' noNuevaLinea
@@ -66,7 +80,7 @@ comentariosMultL --> '/_'.*'_/'
 
 
 ####### ASIGNACION-CREACION VARIABLES #######
-tipoVar --> 'int' | 'boolean' | 'float' | 'char' | 'string'
+tipoVar --> 'int' | 'bool' | 'float' | 'char' | 'string'
 operando --> numEnt | numDec | id
 opAritmetico --> '+' | '-' | '*' | '/'
 tipoNum --> 'int' | 'float'
@@ -85,7 +99,7 @@ obtEleArreglo --> id iniParenCuad tamArreglo finParenCuad
 ###### FUNCIONES ######
 iniBloque --> '{'
 finBloque --> '}'
-tipoRet --> 'int' | 'float' | 'boolean'	
+tipoRet --> 'int' | 'float' | 'bool'	
 iniPar --> '('
 finPar --> ')'
 
@@ -101,7 +115,7 @@ negacion --> '!' | 'not'
 comparacion --> '>' | '>=' | '<' | '<=' | '==' | '!='
 
 expLog --> num
-expLog --> bool
+expLog --> boolean
 expLog --> expLog comparacion expLog
 expLog --> conjuncion expLog
 expLog --> disyuncion expLog
