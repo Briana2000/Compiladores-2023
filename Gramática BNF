@@ -39,16 +39,12 @@ expr --> comentariosMultL
 
 ####### VARIABLES TERMINALES #######
 int, void, float, bool, char, string 
+,
 -, +, *, /, ~ , **, --, ++
-=, >, >=, <, <=, ==, !=
-^, #
-main 
-, 
-True, False
+=, >, >=, <, <=, ==, !=, ^, #, not
+main, True, False
 $
-not
-@
-/_ , _/
+@, /_ , _/
 []. {}. ()
 if, elif, else, do, while, for 
 
