@@ -60,9 +60,9 @@ finExp --> '$'
 tipOpUnario --> id | numEnt | obtEleArreglo
 idBool --> id | bool
 negación --> ! | 'not'
-comentariosUnaL --> \@\N*
-comentariosMultL --> \/.*\/ 
-
+noNuevaLinea --> \N*
+comentariosUnaL --> '@' noNuevaLinea
+comentariosMultL --> '/'.*'/' 
 
 
 // ASIGNACION-CREACION VARIABLES //
