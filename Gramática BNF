@@ -12,14 +12,26 @@ expr --> expr * expr
 expr --> expr / expr
 expr --> expr ~ expr    /// Puede haber màs de 2 expresiones?
 expr --> expr ** expr   //// Puede haber màs de 2 expresiones?
-expr --> ++ expr
-expr --> -- expr
+expr --> ++ tipOpUnario
+expr --> -- tipOpUnario
+expr --> operando > operando
+expr --> operando >= operando
+expr --> operando < operando
+expr --> operando <= operando
+expr --> operando == operando
+expr --> operando != operando 
+expr --> idBool == idBool
+expr --> idBool != idBool
+expr --> expr ^ expr
+expr --> expr # expr
+expr --> negacion expr
 expr --> expr equiv expr 
 expr --> expr finExpr
 expr --> (expr)
 expr --> [expr]
 expr --> {expr} 
 expr --> expr
+expr --> - expr
 expr --> expr, expr
 expr --> obtEleArreglo
 
@@ -41,9 +53,12 @@ false --> 'False' | 0
 bool --> true | false
 equiv --> '='
 finExp --> '$'
+tipOpUnario --> id | numEnt | obtEleArreglo
+idBool --> id | bool
+negación --> ! | 'not'
 
 // ASIGNACION-CREACION VARIABLES //
-tipoVar --> 'int' | 'bool' | 'float' | 'char' | 'string'
+tipoVar --> 'int' | 'boolean' | 'float' | 'char' | 'string'
 operando --> numEnt | numDec | id
 opAritmetico --> '+' | '-' | '*' | '/'
 tipoNum --> 'int' | 'float'
@@ -63,7 +78,7 @@ obtEleArreglo --> id iniParenCuad tamArreglo finParenCuad
 
 iniBloque --> '{'
 finBloque --> '}'
-tipoRet --> 'int' | 'float' | 'bool'	
+tipoRet --> 'int' | 'float' | 'boolean'	
 iniPar --> '('
 finPar --> ')'
 param --> tipoVar id (, tipoVar id)*            /// recibir parámetros (con tipo)?? Solo con tipo? /////
