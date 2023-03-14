@@ -38,7 +38,7 @@ expr --> comentariosUnaL
 expr --> comentariosMultL
 
 ####### VARIABLES TERMINALES #######
-int, void, float, bool, char, string 
+int, void, float, bool, char, string
 ,
 -, +, *, /, ~ , **, --, ++
 =, >, >=, <, <=, ==, !=, ^, #, not
@@ -46,7 +46,7 @@ main, True, False
 $
 @, /_ , _/
 []. {}. ()
-if, elif, else, do, while, for 
+if, elif, else, do, while, for, return, break 
 
 ####### VARIABLES NO TERMINALES #######
 letra --> [a-zA-Z_]
