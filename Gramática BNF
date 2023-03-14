@@ -61,8 +61,8 @@ finExp --> '$'
 tipOpUnario --> id | numEnt | obtEleArreglo
 idBool --> id | bool
 negación --> ! | 'not'
-noNuevaLinea --> \N*
-comentariosUnaL --> '@' letra* noNuevaLinea
+noNuevaLinea --> [^\n]*
+comentariosUnaL --> '@' '.*' noNuevaLinea
 comentariosMultL --> '/_'.*'_/' 
 
 
@@ -94,7 +94,7 @@ parametros --> creaVar
 parametros --> creaVar, parametros
 
 sentencias --> sentencia | sentencias sentencia
-sentencia --> creAsignVar | asignación | llamada | condicional 
+sentencia --> creAsignVar | asignación | llamada | condicional | bucle | funcion | escape
 
 conjuncion --> '^'
 disyuncion --> '#'
@@ -104,8 +104,8 @@ comparacion --> '>' | '>=' | '<' | '<=' | '==' | '!='
 expLog --> num
 expLog --> bool
 expLog --> expLog comparacion expLog
-expLog --> conjuncion
-expLog --> disyuncion
+expLog --> conjuncion expLog
+expLog --> disyuncion expLog
 expLog --> negacion expLog
 expLog --> (expLog)
 
@@ -114,10 +114,26 @@ creAsignVar --> creaVar equiv id finExp
 asignación --> id equiv tipoBasico finExp
 asignación --> id equiv id
 llamada --> "call" id iniPar parametros finPar finExp
+escape --> return id finExp
+escape --> return tipoBasico finExp
+escape --> return finExp
+escape --> return llamada
+escape --> return expLog
+escape --> return operaciones //falta definir
+escape --> break finExp
 
-condicional --> 'if' iniPar expLog finPar iniBloque sentencias finBloque fin finExp
+if --> 'if'
+elif --> 'elif'
+else --> 'else'
+while --> 'while'
+do --> 'do'
+
+condElse --> else iniBloque sentencias finBloque
+condElif --> elif iniPar expLog finPar iniBloque sentencias finBloque
+condIf --> if iniPar expLog finPar iniBloque sentencias finBloque
+condicional --> condIf condElif* condElse?
+bucle --> while iniPar expLog finPar iniBloque sentencias finBloque
+bucle --> do iniBloque sentencias finBloque while iniPar expLog finPar finExp
 
 funcion --> tipoRet id params iniBloque sentencias finBloque finExp
-
-
 
