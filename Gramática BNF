@@ -10,22 +10,22 @@ expr --> expr + expr
 expr --> expr - expr
 expr --> expr * expr
 expr --> expr / expr
-expr --> + expr
-expr --> - expr
-expr --> * expr
-expr --> / expr
+expr --> expr ~ expr    /// Puede haber màs de 2 expresiones?
+expr --> expr ** expr   //// Puede haber màs de 2 expresiones?
+expr --> ++ expr
+expr --> -- expr
 expr --> expr equiv expr 
 expr --> expr finExpr
 expr --> (expr)
 expr --> [expr]
 expr --> {expr} 
 expr --> expr
-expr --> expr,
+expr --> expr, expr
+expr --> obtEleArreglo
 
 
 
-
-
+///////VARIABLES NO TERMINALES///////////
 letra --> [a-zA-Z_]
 digito --> [0-9]
 id --> letra (letra|digito)*
@@ -55,6 +55,8 @@ finParenCuad --> ']'
 tipoArreglo --> 'int' | 'char' 
 tamArreglo --> digitoSC digito* | ε
 creArreglo --> tipoArreglo id iniParenCuad tamArreglo finParenCuad
+obtEleArreglo --> id iniParenCuad tamArreglo finParenCuad
+
 
 
 //FUNCIONES//
