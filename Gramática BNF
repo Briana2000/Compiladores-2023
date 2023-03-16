@@ -39,7 +39,6 @@ datosSimples --> num | caracter | cadena | boolean
 ## Simbolos
 equiv --> '='
 finExp --> '$'
-#operadorLog --> '>' | '>=' | '<' | '<=' | '==' | '!='
 #conjuncion --> '^'
 #disyuncion --> '#'
 #negacion --> ! | 'not'
@@ -71,6 +70,23 @@ operacionesAritmeticas --> '-' operacionesAritmeticas
 operacionesAritmeticas --> operacionesAritmeticas opAritmetico operacionesAritmeticas
 operacionUnaria --> '++' opTipoUnario
 operacionUnaria --> '--' opTipoUnario
+
+############## OPERACIONES RELACIONALES ##############
+operadorRel --> '>' | '>=' | '<' | '<=' | '==' | '!='
+operacionRelacional --> operacionesAritmeticas operadorRel operacionesAritmeticas
+
+############## OPERACIONES LOGICAS ##############
+
+operandoLog --> num | boolean | id | obtEleArreglo
+opLogico --> '^' | '#'
+negacion --> ! | 'not'
+operacionesLogicas --> operandoLog
+operacionesLogicas --> operacionRelacional
+operacionesLogicas --> '(' operacionesLogicas ')'
+operacionesLogicas --> negacion operacionesLogicas
+operacionesLogicas --> operacionesLogicas opLogico operacionesLogicas
+#operacionesLogicas --> operacionesLogicas operadorRel operacionesLogicas
+
 
 ############## ARREGLOS ESTATICOS ##############
 iniParenCuad -->'['
