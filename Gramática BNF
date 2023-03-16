@@ -86,10 +86,16 @@ creaVar --> tipoVar id
 iniParenCuad -->'['
 finParenCuad --> ']'
 tipoArreglo --> 'int' | 'char' 
-tamArreglo --> digitoSC digito* | ε
-creArreglo --> tipoArreglo id iniParenCuad tamArreglo finParenCuad
+tamArreglo --> digitoSC digito* 
+creArregloConTam --> tipoArreglo id iniParenCuad tamArreglo finParenCuad
+creArregloSinTam --> tipoArreglo id iniParenCuad finParenCuad
+soloCreaArreglo --> (creArregloConTam | creArregloSinTam) finExp
+eleNumEnt --> numEnt ',' | numEnt
+eleCharP --> . 
+eleCharS --> letra ',' | letra 
+creAsigArregloConTam --> creArregloConTam equiv iniBloque (eleNumEnt{tamArreglo} | \"eleCharP{tamArreglo}\" | eleCharS{tamArreglo}) finBloque finExp
+creaAsigArregloSinTam --> creArregloSinTam equiv iniBloque (eleNumEnt* | \"eleCharP*\" | eleCharS*) finBloque finExp
 obtEleArreglo --> id iniParenCuad tamArreglo finParenCuad
-
 
 
 ###### FUNCIONES ######
