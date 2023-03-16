@@ -50,7 +50,7 @@ comentariosMultL --> '/_'.*'_/'
 
 
 ############## CREACION VARIABLES ##############
-tipoVar --> 'int' | 'bool' | 'float' | 'char' | 'string'
+tipoVar --> 'int' | 'float' | 'char' | 'string' | boolean
 creaVar --> tipoVar id finExp
 
 ############## ASIGNACION VARIABLES ##############
@@ -109,7 +109,7 @@ obtEleArreglo --> id iniParenCuad tamArreglo finParenCuad
 funcion --> tipoRet id parametros bloque finExp
 
 ## Retornos de funciones
-tipoRet --> 'int' | 'float' | 'boolean'	
+tipoRet --> 'int' | 'float' | boolean	
 
 ## Parametros de funciones
 parametro --> tipoVar id
