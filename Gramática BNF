@@ -34,14 +34,15 @@ numEnt --> (signo  digitoSC digito*) | (digitoSC digito*) | cero
 numDec --> signo? (digitoSC digito* | cero ) punto digito+ | ceroD
 num --> numEnt | numDec
 boolean --> true | false
+datosSimples --> num | caracter | cadena | boolean
 
 ## Simbolos
 equiv --> '='
 finExp --> '$'
-comparacion --> '>' | '>=' | '<' | '<=' | '==' | '!='
-conjuncion --> '^'
-disyuncion --> '#'
-negacion --> ! | 'not'
+#operadorLog --> '>' | '>=' | '<' | '<=' | '==' | '!='
+#conjuncion --> '^'
+#disyuncion --> '#'
+#negacion --> ! | 'not'
 
 ## Comentarios
 noNuevaLinea --> [^\n]*
@@ -55,23 +56,21 @@ creaVar --> tipoVar id finExp
 
 ############## ASIGNACION VARIABLES ##############
 parteIzAsig --> tipoVar id | id | obtEleArreglo
-parteDAsig --> num | id | operacionesAritmeticas | obtEleArreglo        #### Revisar al final si falta algo
+parteDAsig --> datosSimples | id | operacionesAritmeticas | obtEleArreglo
 asignacion --> parteIzAsig equiv parteDAsig finExp
 
 ############## OPERACIONES ARITMETICAS ##############
 
-operando --> numEnt | numDec | id | obtEleArreglo
+operandoAr --> numEnt | numDec | id | obtEleArreglo
 opTipoUnario --> id | obtEleArreglo
 opAritmetico --> '+' | '-' | '*' | '/' | '~' | '**'
-operacionesAritmeticas --> expr
-expr --> operando 
-expr --> (expr)
-expr --> '-' expr
-expr --> expr opAritmetico expr
-expr --> expr comparacion expr 
-expr --> '++' tipOpUnario
-expr --> '--' tipOpUnario
-
+operacionesAritmeticas --> operando 
+operacionesAritmeticas --> operacionUnaria
+operacionesAritmeticas --> '(' operacionesAritmeticas ')'
+operacionesAritmeticas --> '-' operacionesAritmeticas
+operacionesAritmeticas --> operacionesAritmeticas opAritmetico operacionesAritmeticas
+operacionUnaria --> '++' opTipoUnario
+operacionUnaria --> '--' opTipoUnario
 
 ############## ARREGLOS ESTATICOS ##############
 iniParenCuad -->'['
