@@ -127,12 +127,11 @@ sentencia --> creaVar | asignacion | operaciones | llamaFunc | control | funcion
 llamaFunc --> id params finExp
 
 ## Return de funciones
-return --> "return" id finExp
-return --> "return" tipoBasico finExp
-return --> "return" finExp ## No hay void en funciones. La dejo?
-return --> "return" llamaFunc
-return --> "return" operacionesLogicas finExp
-return --> "return" operaciones finExp
+return --> 'return' id finExp
+return --> 'return' tipoBasico finExp
+return --> 'return' llamaFunc
+return --> 'return' operacionesLogicas finExp
+return --> 'return' operaciones finExp
 
 ############## Estructuras de control ##############
 control --> condicional | ciclo
@@ -148,5 +147,5 @@ condElif --> 'elif' '(' exprBool ')' bloque
 ## Ciclos
 while --> 'while' '(' operacionesLogicas ')' bloque
 doWhile --> "do" bloque 'while' '(' exprBool ')' finExp
-for --> 'for' '(' asignacion ';' operacionesLogicas ';' asignacion ')' bloque
+for --> 'for' '(' asignacion finExp operacionesLogicas finExp asignacion ')' bloque
 ciclo --> while | doWhile | for
