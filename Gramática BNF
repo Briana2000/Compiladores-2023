@@ -49,24 +49,17 @@ parteIzAsig --> tipo id | id | obtEleArreglo
 parteDAsig --> num | id | operacionesAritmeticas | obtEleArreglo        #### Revisar al final si falta algo
 asignacion --> parteIzAsig equiv parteDAsig finExp
 
-####### OPERACIONES ARITMETICAS y LOGICAS #######
+####### OPERACIONES ARITMETICAS #######
 
 operando --> numEnt | numDec | id | obtEleArreglo
 opTipoUnario --> id | obtEleArreglo
 opAritmetico --> '+' | '-' | '*' | '/' | '~' | '**'
-conjuncion --> '^'
-disyuncion --> '#'
-negacion --> '!' | 'not'
-comparacion --> '>' | '>=' | '<' | '<=' | '==' | '!='
 operacionesAritmeticas --> expr
 expr --> operando 
 expr --> (expr)
 expr --> '-' expr
 expr --> expr opAritmetico expr
 expr --> expr comparacion expr 
-expr --> expr conjuncion expr
-expr --> expr disyuncion expr
-expr --> negacion expr
 expr --> '++' tipOpUnario
 expr --> '--' tipOpUnario
 
@@ -99,6 +92,11 @@ parametros --> creaVar, parametros
 
 sentencias --> sentencia | sentencias sentencia
 sentencia --> creAsignVar | asignación | llamada | condicional | bucle | funcion | escape
+
+comparacion --> '>' | '>=' | '<' | '<=' | '==' | '!='
+conjuncion --> '^'
+disyuncion --> '#'
+negacion --> '!' | 'not'
 
 expLog --> num
 expLog --> boolean
