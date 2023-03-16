@@ -84,8 +84,9 @@ obtEleArreglo --> id iniParenCuad tamArreglo finParenCuad
 
 
 ###### FUNCIONES ######
-tipoRet --> 'int' | 'float' | 'boolean'	
+funcion --> tipoRet id params bloque finExp
 
+tipoRet --> 'int' | 'float' | 'boolean'	
 
 parametros --> creaVar
 parametros --> creaVar, parametros
@@ -96,11 +97,6 @@ bloque --> '{' sentencias '}'
 
 sentencias --> sentencia | sentencias sentencia
 sentencia --> creacion | asignacion | llamaFun | condicional | ciclo | funcion | return
-
-
-funcion --> tipoRet id params bloque finExp
-
-
 
 
 ## Llamada a funciones
@@ -127,7 +123,7 @@ condElif --> 'elif' '(' exprBool ')' bloque
 while --> 'while' '(' exprBool ')' bloque
 doWhile --> "do" bloque 'while' '(' exprBool ')' finExp
 for --> 'for' '(' creAsignVar ';' exprBool ';' asignacion ')' bloque
-
+ciclo --> while | doWhile | for
 
 
 #falta definir
