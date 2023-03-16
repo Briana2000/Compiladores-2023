@@ -55,11 +55,12 @@ creaVar --> tipoVar id finExp
 
 ############## ASIGNACION VARIABLES ##############
 parteIzAsig --> tipoVar id | id | obtEleArreglo
-parteDAsig --> datosSimples | id | operacionesAritmeticas | obtEleArreglo
+parteDAsig --> datosSimples | id | operacionesAritmeticas | obtEleArreglo | llamaFunc
 asignacion --> parteIzAsig equiv parteDAsig finExp
 
-############## OPERACIONES ARITMETICAS ##############
+############## OPERACIONES ##############
 
+## Operaciones aritmeticas
 operandoAr --> numEnt | numDec | id | obtEleArreglo
 opTipoUnario --> id | obtEleArreglo
 opAritmetico --> '+' | '-' | '*' | '/' | '~' | '**'
@@ -71,12 +72,11 @@ operacionesAritmeticas --> operacionesAritmeticas opAritmetico operacionesAritme
 operacionUnaria --> '++' opTipoUnario
 operacionUnaria --> '--' opTipoUnario
 
-############## OPERACIONES RELACIONALES ##############
+## Operaciones relacionales
 operadorRel --> '>' | '>=' | '<' | '<=' | '==' | '!='
 operacionRelacional --> operacionesAritmeticas operadorRel operacionesAritmeticas
 
-############## OPERACIONES LOGICAS ##############
-
+## Operaciones logicas
 operandoLog --> num | boolean | id | obtEleArreglo
 opLogico --> '^' | '#'
 negacion --> ! | 'not'
@@ -87,6 +87,7 @@ operacionesLogicas --> negacion operacionesLogicas
 operacionesLogicas --> operacionesLogicas opLogico operacionesLogicas
 #operacionesLogicas --> operacionesLogicas operadorRel operacionesLogicas
 
+operaciones --> operacionesAritmeticas | operacionesLogicas | operacionesRelacionales
 
 ############## ARREGLOS ESTATICOS ##############
 iniParenCuad -->'['
@@ -119,7 +120,7 @@ bloque --> '{' sentencias '}'
 
 ## Sentencias
 sentencias --> sentencia | sentencia sentencias
-sentencia --> creaVar | asignacion | llamaFunc | control | funcion | return
+sentencia --> creaVar | asignacion | operaciones | llamaFunc | control | funcion | return
 
 
 ## Llamada a funciones
@@ -128,10 +129,10 @@ llamaFunc --> id params finExp
 ## Return de funciones
 return --> "return" id finExp
 return --> "return" tipoBasico finExp
-return --> "return" finExp
+return --> "return" finExp ## No hay void en funciones. La dejo?
 return --> "return" llamaFunc
-return --> "return" exprBool
-return --> "return" operaciones //falta definir
+return --> "return" operacionesLogicas finExp
+return --> "return" operaciones finExp
 
 ############## Estructuras de control ##############
 control --> condicional | ciclo
@@ -139,13 +140,13 @@ control --> condicional | ciclo
 ## Condicionales (if, else, elif)
 
 condicional --> condIf condElif* condElse?
-condIf --> 'if' '(' exprBool ')' bloque
+condIf --> 'if' '(' operacionesLogicas ')' bloque
 condElse --> 'else' bloque
 condElif --> 'elif' '(' exprBool ')' bloque
 
 
 ## Ciclos
-while --> 'while' '(' exprBool ')' bloque
+while --> 'while' '(' operacionesLogicas ')' bloque
 doWhile --> "do" bloque 'while' '(' exprBool ')' finExp
-for --> 'for' '(' creAsignVar ';' exprBool ';' asignacion ')' bloque
+for --> 'for' '(' asignacion ';' operacionesLogicas ';' asignacion ')' bloque
 ciclo --> while | doWhile | for
