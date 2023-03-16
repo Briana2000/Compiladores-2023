@@ -1,45 +1,19 @@
 ####### PRODUCCIONES ####### 
 
-## Derivaciones?
-expr --> ε
-expr --> id
-expr --> numEnt
-expr --> numDec
-expr --> creaVar
-expr --> creArreglo
-expr --> obtEleArreglo
-expr --> expr equiv expr 
-expr --> expr finExp
-expr --> (expr)
-expr --> [expr]
-expr --> {expr} 
-expr --> expr
-expr --> - expr
-expr --> expr, expr
-expr --> expr + expr
-expr --> expr - expr
-expr --> expr * expr
-expr --> expr / expr
-expr --> expr ~ expr    ### Puede haber màs de 2 expresiones?
-expr --> expr ** expr   ### Puede haber màs de 2 expresiones?
-expr --> ++ tipOpUnario
-expr --> -- tipOpUnario
-expr --> operando > operando
-expr --> operando >= operando
-expr --> operando < operando
-expr --> operando <= operando
-expr --> operando == operando
-expr --> operando != operando 
-expr --> idBool == idBool
-expr --> idBool != idBool
-expr --> expr ^ expr
-expr --> expr # expr
-expr --> negacion expr
-expr --> comentariosUnaL
-expr --> comentariosMultL
-
+-------------------------------------------------------FALTA SIMBOLO INICIAL------------------------------
 
 ####### VARIABLES TERMINALES #######
+'int' 'void' 'float' 'bool' 'char' 'string'
+,
+-, +, *, /, ~ , **, --, ++
+=, >, >=, <, <=, ==, !=, ^, #, not
+main, True, False
+$
+@, /_ , _/
+[], {}, ()
+if, elif, else, do, while, for, return, break 
+
+####### VARIABLES NO TERMINALES #######
 letra --> [a-zA-Z_]
 digito --> [0-9]
 id --> letra (letra|digito)*
@@ -53,40 +27,66 @@ numDec --> signo? (digitoSC digito* | cero ) punto digito+ | ceroD
 num --> numEnt | numDec
 true --> 'True' | 1
 false --> 'False' | 0
-bool --> true | false
-##string --> \" .* \"
-tipoBasico --> num | bool | string
+boolean --> true | false 
+#string --> \" .* \"
+tipoBasico --> num | boolean | string
 equiv --> '='
 finExp --> '$'
-tipOpUnario --> id | numEnt | obtEleArreglo
-idBool --> id | bool
+idBool --> id | boolean
 negación --> ! | 'not'
 noNuevaLinea --> [^\n]*
 comentariosUnaL --> '@' '.*' noNuevaLinea
 comentariosMultL --> '/_'.*'_/' 
-
-
-####### ASIGNACION-CREACION VARIABLES #######
-tipoVar --> 'int' | 'boolean' | 'float' | 'char' | 'string'
-operando --> numEnt | numDec | id
-opAritmetico --> '+' | '-' | '*' | '/'
 tipoNum --> 'int' | 'float'
-creaVar --> tipoVar id
+
+
+####### CREACION VARIABLES #######
+tipoVar --> 'int' | 'bool' | 'float' | 'char' | 'string'
+creaVar --> tipoVar id finExp
+
+####### ASIGNACION VARIABLES #######
+parteIzAsig --> tipo id | id | obtEleArreglo
+parteDAsig --> num | id | operacionesAritmeticas | obtEleArreglo        #### Revisar al final si falta algo
+asignacion --> parteIzAsig equiv parteDAsig finExp
+
+####### OPERACIONES ARITMETICAS #######
+
+operando --> numEnt | numDec | id | obtEleArreglo
+opTipoUnario --> id | obtEleArreglo
+opAritmetico --> '+' | '-' | '*' | '/' | '~' | '**'
+operacionesAritmeticas --> expr
+expr --> operando 
+expr --> (expr)
+expr --> '-' expr
+expr --> expr opAritmetico expr
+expr --> expr comparacion expr 
+expr --> expr conjuncion expr
+expr --> expr disyuncion expr
+expr --> negacion expr
+expr --> '++' tipOpUnario
+expr --> '--' tipOpUnario
+
 
 ####### ARREGLOS ESTATICOS #######
 iniParenCuad -->'['
 finParenCuad --> ']'
 tipoArreglo --> 'int' | 'char' 
-tamArreglo --> digitoSC digito* | ε
-creArreglo --> tipoArreglo id iniParenCuad tamArreglo finParenCuad
+tamArreglo --> digitoSC digito* 
+creArregloConTam --> tipoArreglo id iniParenCuad tamArreglo finParenCuad
+creArregloSinTam --> tipoArreglo id iniParenCuad finParenCuad
+soloCreaArreglo --> (creArregloConTam | creArregloSinTam) finExp
+eleNumEnt --> numEnt ',' | numEnt
+eleCharP --> . 
+eleCharS --> letra ',' | letra 
+#creAsigArregloConTam --> creArregloConTam equiv iniBloque (eleNumEnt{tamArreglo} | \"eleCharP{tamArreglo}\" | eleCharS{tamArreglo}) finBloque finExp
+#creaAsigArregloSinTam --> creArregloSinTam equiv iniBloque (eleNumEnt* | \"eleCharP*\" | eleCharS*) finBloque finExp
 obtEleArreglo --> id iniParenCuad tamArreglo finParenCuad
-
 
 
 ###### FUNCIONES ######
 iniBloque --> '{'
 finBloque --> '}'
-tipoRet --> 'int' | 'float' | 'boolean'	
+tipoRet --> 'int' | 'float' | 'bool'	
 iniPar --> '('
 finPar --> ')'
 
@@ -103,7 +103,7 @@ negacion --> '!' | 'not'
 comparacion --> '>' | '>=' | '<' | '<=' | '==' | '!='
 
 expLog --> num
-expLog --> bool
+expLog --> boolean
 expLog --> expLog comparacion expLog
 expLog --> conjuncion expLog
 expLog --> disyuncion expLog
