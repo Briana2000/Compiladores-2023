@@ -54,7 +54,7 @@ num --> numEnt | numDec
 true --> 'True' | 1
 false --> 'False' | 0
 bool --> true | false
-string --> \" .* \"
+##string --> \" .* \"
 tipoBasico --> num | bool | string
 equiv --> '='
 finExp --> '$'
@@ -92,6 +92,7 @@ finPar --> ')'
 
 parametros --> creaVar
 parametros --> creaVar, parametros
+params --> iniPar parametros finPar
 
 sentencias --> sentencia | sentencias sentencia
 sentencia --> creAsignVar | asignación | llamada | condicional | bucle | funcion | escape
@@ -134,6 +135,7 @@ condIf --> if iniPar expLog finPar iniBloque sentencias finBloque
 condicional --> condIf condElif* condElse?
 bucle --> while iniPar expLog finPar iniBloque sentencias finBloque
 bucle --> do iniBloque sentencias finBloque while iniPar expLog finPar finExp
+
 
 funcion --> tipoRet id params iniBloque sentencias finBloque finExp
 
