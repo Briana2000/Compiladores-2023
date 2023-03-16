@@ -60,9 +60,6 @@ expr --> (expr)
 expr --> '-' expr
 expr --> expr opAritmetico expr
 expr --> expr comparacion expr 
-expr --> expr conjuncion expr
-expr --> expr disyuncion expr
-expr --> negacion expr
 expr --> '++' tipOpUnario
 expr --> '--' tipOpUnario
 
@@ -97,10 +94,10 @@ params --> iniPar parametros finPar
 sentencias --> sentencia | sentencias sentencia
 sentencia --> creAsignVar | asignación | llamada | condicional | bucle | funcion | escape
 
+comparacion --> '>' | '>=' | '<' | '<=' | '==' | '!='
 conjuncion --> '^'
 disyuncion --> '#'
 negacion --> '!' | 'not'
-comparacion --> '>' | '>=' | '<' | '<=' | '==' | '!='
 
 expLog --> num
 expLog --> boolean
