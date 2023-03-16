@@ -33,7 +33,10 @@ tipoBasico --> num | boolean | string
 equiv --> '='
 finExp --> '$'
 idBool --> id | boolean
-negación --> ! | 'not'
+comparacion --> '>' | '>=' | '<' | '<=' | '==' | '!='
+conjuncion --> '^'
+disyuncion --> '#'
+negacion --> ! | 'not'
 noNuevaLinea --> [^\n]*
 comentariosUnaL --> '@' '.*' noNuevaLinea
 comentariosMultL --> '/_'.*'_/' 
@@ -81,58 +84,63 @@ obtEleArreglo --> id iniParenCuad tamArreglo finParenCuad
 
 
 ###### FUNCIONES ######
-iniBloque --> '{'
-finBloque --> '}'
-tipoRet --> 'int' | 'float' | 'bool'	
-iniPar --> '('
-finPar --> ')'
+tipoRet --> 'int' | 'float' | 'boolean'	
+
 
 parametros --> creaVar
 parametros --> creaVar, parametros
-params --> iniPar parametros finPar
+params --> '(' parametros ')'
+
+
+bloque --> '{' sentencias '}'
 
 sentencias --> sentencia | sentencias sentencia
-sentencia --> creAsignVar | asignación | llamada | condicional | bucle | funcion | escape
+sentencia --> creacion | asignacion | llamaFun | condicional | ciclo | funcion | return
 
-comparacion --> '>' | '>=' | '<' | '<=' | '==' | '!='
-conjuncion --> '^'
-disyuncion --> '#'
-negacion --> '!' | 'not'
 
-expLog --> num
-expLog --> boolean
-expLog --> expLog comparacion expLog
-expLog --> conjuncion expLog
-expLog --> disyuncion expLog
-expLog --> negacion expLog
-expLog --> (expLog)
+funcion --> tipoRet id params bloque finExp
 
+
+
+
+## Llamada a funciones
+llamaFun --> id params finExp
+
+## Return de funciones
+return --> "return" id finExp
+return --> "return" tipoBasico finExp
+return --> "return" finExp
+return --> "return" llamaFun
+return --> "return" exprBool
+return --> "return" operaciones //falta definir
+
+
+## Condicionales (if, else, elif)
+
+condicional --> condIf condElif* condElse?
+condIf --> 'if' '(' exprBool ')' bloque
+condElse --> 'else' bloque
+condElif --> 'elif' '(' exprBool ')' bloque
+
+
+## Ciclos
+while --> 'while' '(' exprBool ')' bloque
+doWhile --> "do" bloque 'while' '(' exprBool ')' finExp
+for --> 'for' '(' creAsignVar ';' exprBool ';' asignacion ')' bloque
+
+
+
+#falta definir
 creAsignVar --> creaVar equiv tipoBasico finExp
 creAsignVar --> creaVar equiv id finExp
-asignación --> id equiv tipoBasico finExp
-asignación --> id equiv id
-llamada --> "call" id iniPar parametros finPar finExp
-escape --> return id finExp
-escape --> return tipoBasico finExp
-escape --> return finExp
-escape --> return llamada
-escape --> return expLog
-escape --> return operaciones //falta definir
-escape --> break finExp
+asignacion --> id equiv tipoBasico finExp
+asignacion --> id equiv id
+asignacion --> id equiv llamaFun
+asignacion --> id equiv exprBool
+asignacion --> id equiv operaciones //falta definir
+asignacion --> id operadorUnario finExp
+asignacion --> id operadorUnario operadorUnario finExp
+asignacion --> operadorUnario id finExp
+asignacion --> operadorUnario operadorUnario id finExp
 
-if --> 'if'
-elif --> 'elif'
-else --> 'else'
-while --> 'while'
-do --> 'do'
-
-condElse --> else iniBloque sentencias finBloque
-condElif --> elif iniPar expLog finPar iniBloque sentencias finBloque
-condIf --> if iniPar expLog finPar iniBloque sentencias finBloque
-condicional --> condIf condElif* condElse?
-bucle --> while iniPar expLog finPar iniBloque sentencias finBloque
-bucle --> do iniBloque sentencias finBloque while iniPar expLog finPar finExp
-
-
-funcion --> tipoRet id params iniBloque sentencias finBloque finExp
-
+operadorUnario --> '++' | '--' 
