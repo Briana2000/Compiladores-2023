@@ -3,14 +3,14 @@
 -------------------------------------------------------FALTA SIMBOLO INICIAL------------------------------
 
 ############## VARIABLES TERMINALES ##############
-'int' 'void' 'float' 'bool' 'char' 'string'
+'int' 'void' 'float' 'char' 'string'
 ,
 -, +, *, /, ~ , **, --, ++
 =, >, >=, <, <=, ==, !=, ^, #, not
 main, True, False
 $
 @, /_ , _/
-[], {}, ()
+()
 if, elif, else, do, while, for, return, break 
 
 ############## VARIABLES NO TERMINALES ##############
@@ -45,7 +45,7 @@ finExp --> '$'
 
 ## Comentarios
 noNuevaLinea --> [^\n]*
-comentariosUnaL --> '@' '.*' noNuevaLinea
+comentariosUnaL --> '@' .* noNuevaLinea
 comentariosMultL --> '/_'.*'_/' 
 
 
@@ -64,7 +64,7 @@ asignacion --> parteIzAsig equiv parteDAsig finExp
 operandoAr --> numEnt | numDec | id | obtEleArreglo
 opTipoUnario --> id | obtEleArreglo
 opAritmetico --> '+' | '-' | '*' | '/' | '~' | '**'
-operacionesAritmeticas --> operando 
+operacionesAritmeticas --> operandoAr 
 operacionesAritmeticas --> operacionUnaria
 operacionesAritmeticas --> '(' operacionesAritmeticas ')'
 operacionesAritmeticas --> '-' operacionesAritmeticas
