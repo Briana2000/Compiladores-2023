@@ -134,19 +134,3 @@ while --> 'while' '(' exprBool ')' bloque
 doWhile --> "do" bloque 'while' '(' exprBool ')' finExp
 for --> 'for' '(' creAsignVar ';' exprBool ';' asignacion ')' bloque
 ciclo --> while | doWhile | for
-
-
-#falta definir
-creAsignVar --> creaVar equiv tipoBasico finExp
-creAsignVar --> creaVar equiv id finExp
-asignacion --> id equiv tipoBasico finExp
-asignacion --> id equiv id
-asignacion --> id equiv llamaFunc
-asignacion --> id equiv exprBool
-asignacion --> id equiv operaciones //falta definir
-asignacion --> id operadorUnario finExp
-asignacion --> id operadorUnario operadorUnario finExp
-asignacion --> operadorUnario id finExp
-asignacion --> operadorUnario operadorUnario id finExp
-
-operadorUnario --> '++' | '--' 
