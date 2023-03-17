@@ -27,9 +27,6 @@ datosSimples --> num | caracter | cadena | boolean
 ## Simbolos
 equiv --> '='
 finExp --> '$'
-#conjuncion --> '^'
-#disyuncion --> '#'
-#negacion --> ! | 'not'
 
 ## Comentarios
 noNuevaLinea --> [^\n]*
@@ -39,11 +36,11 @@ comentariosMultL --> '/_'.*'_/'
 
 ############## CREACION VARIABLES ##############
 tipoVar --> 'int' | 'float' | 'char' | 'string' | boolean
-creaVar --> tipoVar id finExp
+creaVar --> (tipoVar id | creArregloConTam) finExp
 
 ############## ASIGNACION VARIABLES ##############
-parteIzAsig --> tipoVar id | id | obtEleArreglo
-parteDAsig --> datosSimples | id | operacionesAritmeticas | obtEleArreglo | llamaFunc
+parteIzAsig --> tipoVar id | id | obtEleArreglo | creArregloConTam | creArregloSinTam
+parteDAsig --> datosSimples | id | operacionesAritmeticas | obtEleArreglo | llamaFunc | AsigArregloConTam | AsigArregloSinTam
 asignacion --> parteIzAsig equiv parteDAsig finExp
 
 ############## OPERACIONES ##############
@@ -85,11 +82,11 @@ tamArreglo --> digitoSC digito*
 creArregloConTam --> tipoArreglo id iniParenCuad tamArreglo finParenCuad
 creArregloSinTam --> tipoArreglo id iniParenCuad finParenCuad
 soloCreaArreglo --> (creArregloConTam | creArregloSinTam) finExp
-eleNumEnt --> numEnt ',' | numEnt
+eleNumEnt --> numEnt ',' eleNumEnt | numEnt
 eleCharP --> . 
-eleCharS --> letra ',' | letra 
-#creAsigArregloConTam --> creArregloConTam equiv iniBloque (eleNumEnt{tamArreglo} | \"eleCharP{tamArreglo}\" | eleCharS{tamArreglo}) finBloque finExp
-#creaAsigArregloSinTam --> creArregloSinTam equiv iniBloque (eleNumEnt* | \"eleCharP*\" | eleCharS*) finBloque finExp
+eleCharS --> letra ',' eleCharS | letra 
+AsigArregloConTam --> iniBloque (eleNumEnt{tamArreglo} | \"eleCharP{tamArreglo}\" | eleCharS{tamArreglo}) finBloque finExp
+AsigArregloSinTam --> iniBloque (eleNumEnt* | \"eleCharP*\" | eleCharS*) finBloque finExp
 obtEleArreglo --> id iniParenCuad tamArreglo finParenCuad
 
 
