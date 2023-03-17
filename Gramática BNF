@@ -1,19 +1,7 @@
 ############## PRODUCCIONES ##############
 
--------------------------------------------------------FALTA SIMBOLO INICIAL------------------------------
+nuevoLenguaje --> funciones 
 
-############## VARIABLES TERMINALES ##############
-'int' 'void' 'float' 'char' 'string'
-,
--, +, *, /, ~ , **, --, ++
-=, >, >=, <, <=, ==, !=, ^, #, not
-main, True, False
-$
-@, /_ , _/
-()
-if, elif, else, do, while, for, return, break 
-
-############## VARIABLES NO TERMINALES ##############
 letra --> [a-zA-Z_]
 digito --> [0-9]
 digitoSC --> [1-9]
@@ -106,14 +94,17 @@ obtEleArreglo --> id iniParenCuad tamArreglo finParenCuad
 
 
 ############# FUNCIONES #############
-funcion --> tipoRet id parametros bloque finExp
+
+funcionMain --> 'int' 'main' '('')' bloque 
+funciones --> funciones funcion | funcion
+funcion --> funcionMain | tipoRet id parametros bloque finExp
 
 ## Retornos de funciones
 tipoRet --> 'int' | 'float' | boolean	
 
 ## Parametros de funciones
 parametro --> tipoVar id
-parametros --> '(' (parametro | parametro ',' parametros) ')'
+parametros --> '(' (parametro | parametro ',' parametros) ')' | '('')'
 
 ## Bloques de funciones
 bloque --> '{' sentencias '}'
@@ -124,7 +115,7 @@ sentencia --> creaVar | asignacion | operaciones | llamaFunc | control | funcion
 
 
 ## Llamada a funciones
-llamaFunc --> id params finExp
+llamaFunc --> id parametros finExp
 
 ## Return de funciones
 return --> 'return' id finExp
