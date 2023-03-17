@@ -62,18 +62,18 @@ operacionUnaria --> '--' opTipoUnario
 
 ## Operaciones relacionales
 operadorRel --> '>' | '>=' | '<' | '<=' | '==' | '!='
-operacionRelacional --> operacionesAritmeticas operadorRel operacionesAritmeticas
+operacionesRelacionales --> operacionesAritmeticas operadorRel operacionesAritmeticas
 
 ## Operaciones logicas
 operandoLog --> num | boolean | id | obtEleArreglo
 opLogico --> '^' | '#'
 negacion --> ! | 'not'
 operacionesLogicas --> operandoLog
-operacionesLogicas --> operacionRelacional
+operacionesLogicas --> operacionesRelacionales
 operacionesLogicas --> '(' operacionesLogicas ')'
 operacionesLogicas --> negacion operacionesLogicas
 operacionesLogicas --> operacionesLogicas opLogico operacionesLogicas
-#operacionesLogicas --> operacionesLogicas operadorRel operacionesLogicas
+operacionesLogicas --> operacionesLogicas operadorRel operacionesLogicas
 
 operaciones --> operacionesAritmeticas | operacionesLogicas | operacionesRelacionales
 
@@ -90,11 +90,10 @@ asigArregloConTam --> '{' (eleNumEnt{tamArreglo} | \"eleCharP{tamArreglo}\" | el
 asigArregloSinTam --> '{' (eleNumEnt* | \"eleCharP*\" | eleCharS*) '}' finExp
 obtEleArreglo --> id '[' tamArreglo ']'
 
-
 ############# FUNCIONES #############
 
 ## Funcion Main
-funcionMain --> 'int' 'main' '('')' bloque 
+funcionMain --> 'int' 'main' '(' ')' bloque 
 
 funciones --> funciones funcion | funcion
 funcion --> funcionMain | tipoRet id parametros bloque finExp
@@ -126,7 +125,7 @@ return --> 'return' operaciones finExp
 
 control --> condicional | ciclo
 
-## Condicionales (if, else, elif)
+## Condicionales
 
 condicional --> condIf condElif* condElse?
 condIf --> 'if' '(' operacionesLogicas ')' bloque
@@ -135,6 +134,6 @@ condElif --> 'elif' '(' exprBool ')' bloque
 
 ## Ciclos
 while --> 'while' '(' operacionesLogicas ')' bloque
-doWhile --> "do" bloque 'while' '(' exprBool ')' finExp
+doWhile --> 'do' bloque 'while' '(' exprBool ')' finExp
 for --> 'for' '(' asignacion finExp operacionesLogicas finExp asignacion ')' bloque
 ciclo --> while | doWhile | for
