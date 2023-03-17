@@ -1,5 +1,6 @@
 ############## PRODUCCIONES ##############
 
+## Simbolo Inicial
 nuevoLenguaje --> funciones 
 
 letra --> [a-zA-Z_]
@@ -31,16 +32,18 @@ finExp --> '$'
 ## Comentarios
 noNuevaLinea --> [^\n]*
 comentariosUnaL --> '@' .* noNuevaLinea
-comentariosMultL --> '/_'.*'_/' 
-
+comentariosMultL --> '/_'.*'_/'
+comentarios --> comentariosUnaL | comentariosMultL
 
 ############## CREACION VARIABLES ##############
+
 tipoVar --> 'int' | 'float' | 'char' | 'string' | boolean
-creaVar --> (tipoVar id | creArregloConTam) finExp
+creaVar --> (tipoVar id | arregloConTam) finExp
 
 ############## ASIGNACION VARIABLES ##############
-parteIzAsig --> tipoVar id | id | obtEleArreglo | creArregloConTam | creArregloSinTam
-parteDAsig --> datosSimples | id | operacionesAritmeticas | obtEleArreglo | llamaFunc | AsigArregloConTam | AsigArregloSinTam
+
+parteIzAsig --> tipoVar id | id | obtEleArreglo | arregloConTam | arregloSinTam
+parteDAsig --> datosSimples | id | operacionesAritmeticas | obtEleArreglo | llamaFunc | asigArregloConTam | asigArregloSinTam
 asignacion --> parteIzAsig equiv parteDAsig finExp
 
 ############## OPERACIONES ##############
@@ -75,24 +78,24 @@ operacionesLogicas --> operacionesLogicas opLogico operacionesLogicas
 operaciones --> operacionesAritmeticas | operacionesLogicas | operacionesRelacionales
 
 ############## ARREGLOS ESTATICOS ##############
-iniParenCuad -->'['
-finParenCuad --> ']'
+
 tipoArreglo --> 'int' | 'char' 
 tamArreglo --> digitoSC digito* 
-creArregloConTam --> tipoArreglo id iniParenCuad tamArreglo finParenCuad
-creArregloSinTam --> tipoArreglo id iniParenCuad finParenCuad
-soloCreaArreglo --> (creArregloConTam | creArregloSinTam) finExp
+arregloConTam --> tipoArreglo id '[' tamArreglo ']'
+arregloSinTam --> tipoArreglo id '[' ']'
 eleNumEnt --> numEnt ',' eleNumEnt | numEnt
 eleCharP --> . 
 eleCharS --> letra ',' eleCharS | letra 
-AsigArregloConTam --> iniBloque (eleNumEnt{tamArreglo} | \"eleCharP{tamArreglo}\" | eleCharS{tamArreglo}) finBloque finExp
-AsigArregloSinTam --> iniBloque (eleNumEnt* | \"eleCharP*\" | eleCharS*) finBloque finExp
-obtEleArreglo --> id iniParenCuad tamArreglo finParenCuad
+asigArregloConTam --> '{' (eleNumEnt{tamArreglo} | \"eleCharP{tamArreglo}\" | eleCharS{tamArreglo}) '}' finExp
+asigArregloSinTam --> '{' (eleNumEnt* | \"eleCharP*\" | eleCharS*) '}' finExp
+obtEleArreglo --> id '[' tamArreglo ']'
 
 
 ############# FUNCIONES #############
 
+## Funcion Main
 funcionMain --> 'int' 'main' '('')' bloque 
+
 funciones --> funciones funcion | funcion
 funcion --> funcionMain | tipoRet id parametros bloque finExp
 
@@ -100,28 +103,27 @@ funcion --> funcionMain | tipoRet id parametros bloque finExp
 tipoRet --> 'int' | 'float' | boolean	
 
 ## Parametros de funciones
-parametro --> tipoVar id
-parametros --> '(' (parametro | parametro ',' parametros) ')' | '('')'
+parametro --> tipoVar id | arregloConTam | arregloSinTam
+parametros --> '(' (parametro | parametro ',' parametros) ')' | '(' ')'
 
 ## Bloques de funciones
 bloque --> '{' sentencias '}'
 
 ## Sentencias
 sentencias --> sentencia | sentencia sentencias
-sentencia --> creaVar | asignacion | operaciones | llamaFunc | control | funcion | return
-
+sentencia --> creaVar | asignacion | operaciones | llamaFunc | control | funcion | return | comentarios
 
 ## Llamada a funciones
 llamaFunc --> id parametros finExp
 
 ## Return de funciones
 return --> 'return' id finExp
-return --> 'return' tipoBasico finExp
+return --> 'return' datosSimples finExp
 return --> 'return' llamaFunc
-return --> 'return' operacionesLogicas finExp
 return --> 'return' operaciones finExp
 
-############## Estructuras de control ##############
+############## ESTRUCTURAS DE CONTROL ##############
+
 control --> condicional | ciclo
 
 ## Condicionales (if, else, elif)
@@ -130,7 +132,6 @@ condicional --> condIf condElif* condElse?
 condIf --> 'if' '(' operacionesLogicas ')' bloque
 condElse --> 'else' bloque
 condElif --> 'elif' '(' exprBool ')' bloque
-
 
 ## Ciclos
 while --> 'while' '(' operacionesLogicas ')' bloque
