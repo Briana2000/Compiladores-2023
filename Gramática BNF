@@ -110,7 +110,7 @@ bloque --> '{' sentencias '}'
 
 ## Sentencias
 sentencias --> sentencia | sentencia sentencias
-sentencia --> creaVar | asignacion | operaciones | llamaFunc | control | funcion | return | comentarios | break
+sentencia --> creaVar | asignacion | operaciones | llamaFunc | control | funcion | return | comentarios | break | output
 
 ## Llamada a funciones
 llamaFunc --> id parametros finExp
