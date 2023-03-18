@@ -43,7 +43,7 @@ creaVar --> (tipoVar id | arregloConTam) finExp
 ############## ASIGNACION VARIABLES ##############
 
 parteIzAsig --> tipoVar id | id | obtEleArreglo | arregloConTam | arregloSinTam
-parteDAsig --> datosSimples | id | operacionesAritmeticas | obtEleArreglo | llamaFunc | asigArregloConTam | asigArregloSinTam
+parteDAsig --> datosSimples | id | operacionesAritmeticas | obtEleArreglo | llamaFunc | asigArregloConTam | asigArregloSinTam | input
 asignacion --> parteIzAsig equiv parteDAsig finExp
 
 ############## OPERACIONES ##############
@@ -140,3 +140,19 @@ while --> 'while' '(' operacionesLogicas ')' bloque
 doWhile --> 'do' bloque 'while' '(' operacionesLogicas ')' finExp
 for --> 'for' '(' asignacion finExp operacionesLogicas finExp asignacion ')' bloque
 ciclo --> while | doWhile | for
+
+
+############## Input y Output ##############
+
+## Input
+
+input --> leeInt | leeFloat
+leeInt --> 'readInt' '('')' finExp
+leeFloat --> 'readFloat' '('')' finExp
+
+## Output
+
+output --> escribeInt | escribeFloat | escribeString
+escribeInt --> 'printInt' '(' (id | numEnt) ')' finExp
+escribeFloat --> 'printFloat' '(' (id | numDec) ')' finExp
+escribeString --> 'printString' '(' (id | cadena) ')' finExp
