@@ -64,7 +64,7 @@ asignacion --> parteIzAsig equiv parteDAsig finExp
 operandoAr --> numEnt | numDec | id | obtEleArreglo
 opTipoUnario --> id | obtEleArreglo
 opAritmetico --> '+' | '-' | '*' | '/' | '~' | '**'
-operacionesAritmeticas --> operando 
+operacionesAritmeticas --> operandoAr
 operacionesAritmeticas --> operacionUnaria
 operacionesAritmeticas --> '(' operacionesAritmeticas ')'
 operacionesAritmeticas --> '-' operacionesAritmeticas
@@ -142,11 +142,11 @@ control --> condicional | ciclo
 condicional --> condIf condElif* condElse?
 condIf --> 'if' '(' operacionesLogicas ')' bloque
 condElse --> 'else' bloque
-condElif --> 'elif' '(' exprBool ')' bloque
+condElif --> 'elif' '(' operacionesLogicas ')' bloque
 
 
 ## Ciclos
 while --> 'while' '(' operacionesLogicas ')' bloque
-doWhile --> "do" bloque 'while' '(' exprBool ')' finExp
+doWhile --> "do" bloque 'while' '(' operacionesLogicas ')' finExp
 for --> 'for' '(' asignacion ';' operacionesLogicas ';' asignacion ')' bloque
 ciclo --> while | doWhile | for
