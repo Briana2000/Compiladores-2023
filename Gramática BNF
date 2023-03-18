@@ -1,19 +1,8 @@
 ############## PRODUCCIONES ##############
 
--------------------------------------------------------FALTA SIMBOLO INICIAL------------------------------
+## Simbolo Inicial
+nuevoLenguaje --> funciones 
 
-############## VARIABLES TERMINALES ##############
-'int' 'void' 'float' 'bool' 'char' 'string'
-,
--, +, *, /, ~ , **, --, ++
-=, >, >=, <, <=, ==, !=, ^, #, not
-main, True, False
-$
-@, /_ , _/
-[], {}, ()
-if, elif, else, do, while, for, return, break 
-
-############## VARIABLES NO TERMINALES ##############
 letra --> [a-zA-Z_]
 digito --> [0-9]
 digitoSC --> [1-9]
@@ -39,23 +28,22 @@ datosSimples --> num | caracter | cadena | boolean
 ## Simbolos
 equiv --> '='
 finExp --> '$'
-#conjuncion --> '^'
-#disyuncion --> '#'
-#negacion --> ! | 'not'
 
 ## Comentarios
 noNuevaLinea --> [^\n]*
-comentariosUnaL --> '@' '.*' noNuevaLinea
-comentariosMultL --> '/_'.*'_/' 
-
+comentariosUnaL --> '@' .* noNuevaLinea
+comentariosMultL --> '/_'.*'_/'
+comentarios --> comentariosUnaL | comentariosMultL
 
 ############## CREACION VARIABLES ##############
-tipoVar --> 'int' | 'bool' | 'float' | 'char' | 'string'
-creaVar --> tipoVar id finExp
+
+tipoVar --> 'int' | 'float' | 'char' | 'string' | boolean
+creaVar --> (tipoVar id | arregloConTam) finExp
 
 ############## ASIGNACION VARIABLES ##############
-parteIzAsig --> tipoVar id | id | obtEleArreglo
-parteDAsig --> datosSimples | id | operacionesAritmeticas | obtEleArreglo | llamaFunc
+
+parteIzAsig --> tipoVar id | id | obtEleArreglo | arregloConTam | arregloSinTam
+parteDAsig --> datosSimples | id | operacionesAritmeticas | obtEleArreglo | llamaFunc | asigArregloConTam | asigArregloSinTam
 asignacion --> parteIzAsig equiv parteDAsig finExp
 
 ############## OPERACIONES ##############
@@ -64,7 +52,7 @@ asignacion --> parteIzAsig equiv parteDAsig finExp
 operandoAr --> numEnt | numDec | id | obtEleArreglo
 opTipoUnario --> id | obtEleArreglo
 opAritmetico --> '+' | '-' | '*' | '/' | '~' | '**'
-operacionesAritmeticas --> operandoAr
+operacionesAritmeticas --> operandoAr 
 operacionesAritmeticas --> operacionUnaria
 operacionesAritmeticas --> '(' operacionesAritmeticas ')'
 operacionesAritmeticas --> '-' operacionesAritmeticas
@@ -74,79 +62,81 @@ operacionUnaria --> '--' opTipoUnario
 
 ## Operaciones relacionales
 operadorRel --> '>' | '>=' | '<' | '<=' | '==' | '!='
-operacionRelacional --> operacionesAritmeticas operadorRel operacionesAritmeticas
+operacionesRelacionales --> operacionesAritmeticas operadorRel operacionesAritmeticas
 
 ## Operaciones logicas
 operandoLog --> num | boolean | id | obtEleArreglo
 opLogico --> '^' | '#'
 negacion --> ! | 'not'
 operacionesLogicas --> operandoLog
-operacionesLogicas --> operacionRelacional
+operacionesLogicas --> operacionesRelacionales
 operacionesLogicas --> '(' operacionesLogicas ')'
 operacionesLogicas --> negacion operacionesLogicas
 operacionesLogicas --> operacionesLogicas opLogico operacionesLogicas
-#operacionesLogicas --> operacionesLogicas operadorRel operacionesLogicas
+operacionesLogicas --> operacionesLogicas operadorRel operacionesLogicas
 
 operaciones --> operacionesAritmeticas | operacionesLogicas | operacionesRelacionales
 
 ############## ARREGLOS ESTATICOS ##############
-iniParenCuad -->'['
-finParenCuad --> ']'
+
 tipoArreglo --> 'int' | 'char' 
 tamArreglo --> digitoSC digito* 
-creArregloConTam --> tipoArreglo id iniParenCuad tamArreglo finParenCuad
-creArregloSinTam --> tipoArreglo id iniParenCuad finParenCuad
-soloCreaArreglo --> (creArregloConTam | creArregloSinTam) finExp
-eleNumEnt --> numEnt ',' | numEnt
+arregloConTam --> tipoArreglo id '[' tamArreglo ']'
+arregloSinTam --> tipoArreglo id '[' ']'
+eleNumEnt --> numEnt ',' eleNumEnt | numEnt
 eleCharP --> . 
-eleCharS --> letra ',' | letra 
-#creAsigArregloConTam --> creArregloConTam equiv iniBloque (eleNumEnt{tamArreglo} | \"eleCharP{tamArreglo}\" | eleCharS{tamArreglo}) finBloque finExp
-#creaAsigArregloSinTam --> creArregloSinTam equiv iniBloque (eleNumEnt* | \"eleCharP*\" | eleCharS*) finBloque finExp
-obtEleArreglo --> id iniParenCuad tamArreglo finParenCuad
-
+eleCharS --> letra ',' eleCharS | letra 
+asigArregloConTam --> '{' (eleNumEnt{tamArreglo} | '\"'eleCharP{tamArreglo}'\"' | eleCharS{tamArreglo}) '}' finExp
+asigArregloSinTam --> '{' (eleNumEnt* | '\"'eleCharP*'\"' | eleCharS*) '}' finExp
+obtEleArreglo --> id '[' tamArreglo ']'
 
 ############# FUNCIONES #############
-funcion --> tipoRet id parametros bloque finExp
+
+## Funcion Main
+funcionMain --> 'int' 'main' '(' ')' bloque 
+
+funciones --> funciones funcion | funcion
+funcion --> funcionMain | tipoRet id parametros bloque finExp
 
 ## Retornos de funciones
-tipoRet --> 'int' | 'float' | 'boolean'	
+tipoRet --> 'int' | 'float' | boolean	
 
 ## Parametros de funciones
-parametro --> tipoVar id
-parametros --> '(' (parametro | parametro ',' parametros) ')'
+parametro --> tipoVar id | arregloConTam | arregloSinTam
+parametros --> '(' (parametro | parametro ',' parametros) ')' | '(' ')'
 
 ## Bloques de funciones
 bloque --> '{' sentencias '}'
 
 ## Sentencias
 sentencias --> sentencia | sentencia sentencias
-sentencia --> creaVar | asignacion | operaciones | llamaFunc | control | funcion | return
-
+sentencia --> creaVar | asignacion | operaciones | llamaFunc | control | funcion | return | comentarios | break
 
 ## Llamada a funciones
-llamaFunc --> id params finExp
+llamaFunc --> id parametros finExp
 
 ## Return de funciones
-return --> "return" id finExp
-return --> "return" tipoBasico finExp
-return --> "return" finExp ## No hay void en funciones. La dejo?
-return --> "return" llamaFunc
-return --> "return" operacionesLogicas finExp
-return --> "return" operaciones finExp
+return --> 'return' id finExp
+return --> 'return' datosSimples finExp
+return --> 'return' llamaFunc
+return --> 'return' operaciones finExp
 
-############## Estructuras de control ##############
+## Break
+break --> 'break' finExp
+
+############## ESTRUCTURAS DE CONTROL ##############
+
 control --> condicional | ciclo
 
-## Condicionales (if, else, elif)
+## Condicionales
 
 condicional --> condIf condElif* condElse?
 condIf --> 'if' '(' operacionesLogicas ')' bloque
 condElse --> 'else' bloque
 condElif --> 'elif' '(' operacionesLogicas ')' bloque
 
-
 ## Ciclos
 while --> 'while' '(' operacionesLogicas ')' bloque
-doWhile --> "do" bloque 'while' '(' operacionesLogicas ')' finExp
-for --> 'for' '(' asignacion ';' operacionesLogicas ';' asignacion ')' bloque
+doWhile --> 'do' bloque 'while' '(' operacionesLogicas ')' finExp
+for --> 'for' '(' asignacion finExp operacionesLogicas finExp asignacion ')' bloque
 ciclo --> while | doWhile | for
